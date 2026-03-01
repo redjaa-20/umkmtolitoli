@@ -64,6 +64,10 @@ export function CariUmkmView() {
 
   const uniqueCategories = Array.from(
     new Set(umkm.map((item) => item.category)),
+  ).sort((a, b) => a.localeCompare(b));
+
+  const sortedLocations = [...locations].sort((a, b) =>
+    a.kecamatan.localeCompare(b.kecamatan),
   );
 
   // Removed `uniqueLocations` definition because we render from `locations` imported directly
@@ -176,59 +180,72 @@ export function CariUmkmView() {
       <div className="space-y-4">
         <h5 className="font-medium">Kategori</h5>
         <FieldGroup className="gap-3">
-          {uniqueCategories.map((category, index) => (
-            <Field key={index} orientation="horizontal">
-              <Checkbox
-                id={`category-${index}`}
-                name={`category-${category}`}
-                className="data-checked:bg-green-500 data-checked:border-green-500 size-5 hover:cursor-pointer"
-                checked={selectedCategories.includes(category)}
-                onCheckedChange={(checked) => {
-                  setSelectedCategories((prev) =>
-                    checked
-                      ? [...prev, category]
-                      : prev.filter((c) => c !== category),
-                  );
-                  setCurrentPage(1);
-                }}
-              />
-              <Label
-                className="font-normal capitalize cursor-pointer"
-                htmlFor={`category-${index}`}
-              >
-                {category}
-              </Label>
-            </Field>
-          ))}
+          {uniqueCategories.map((category, index) => {
+            const count = umkm.filter(
+              (item) => item.category === category,
+            ).length;
+            return (
+              <Field key={index} orientation="horizontal">
+                <Checkbox
+                  id={`category-${index}`}
+                  name={`category-${category}`}
+                  className="data-checked:bg-green-500 data-checked:border-green-500 size-5 hover:cursor-pointer"
+                  checked={selectedCategories.includes(category)}
+                  onCheckedChange={(checked) => {
+                    setSelectedCategories((prev) =>
+                      checked
+                        ? [...prev, category]
+                        : prev.filter((c) => c !== category),
+                    );
+                    setCurrentPage(1);
+                  }}
+                />
+                <Label
+                  className="font-normal capitalize cursor-pointer"
+                  htmlFor={`category-${index}`}
+                >
+                  {category} ({count})
+                </Label>
+              </Field>
+            );
+          })}
         </FieldGroup>
       </div>
       <div className="space-y-4">
         <h5 className="font-medium">Lokasi</h5>
         <FieldGroup className="gap-3">
-          {locations.map((group, groupIdx) => (
-            <Field key={groupIdx} orientation="horizontal">
-              <Checkbox
-                id={`kecamatan-${groupIdx}`}
-                name={`kecamatan-${group.kecamatan}`}
-                className="data-checked:bg-green-500 data-checked:border-green-500 size-5 hover:cursor-pointer"
-                checked={selectedLocations.includes(group.kecamatan)}
-                onCheckedChange={(checked) => {
-                  setSelectedLocations((prev) =>
-                    checked
-                      ? [...prev, group.kecamatan]
-                      : prev.filter((l) => l !== group.kecamatan),
-                  );
-                  setCurrentPage(1);
-                }}
-              />
-              <Label
-                className="font-normal capitalize cursor-pointer"
-                htmlFor={`kecamatan-${groupIdx}`}
-              >
-                {group.kecamatan}
-              </Label>
-            </Field>
-          ))}
+          {sortedLocations.map((group, groupIdx) => {
+            const count = umkm.filter(
+              (item) =>
+                item.location === group.kecamatan ||
+                group.desa.includes(item.location),
+            ).length;
+
+            return (
+              <Field key={groupIdx} orientation="horizontal">
+                <Checkbox
+                  id={`kecamatan-${groupIdx}`}
+                  name={`kecamatan-${group.kecamatan}`}
+                  className="data-checked:bg-green-500 data-checked:border-green-500 size-5 hover:cursor-pointer"
+                  checked={selectedLocations.includes(group.kecamatan)}
+                  onCheckedChange={(checked) => {
+                    setSelectedLocations((prev) =>
+                      checked
+                        ? [...prev, group.kecamatan]
+                        : prev.filter((l) => l !== group.kecamatan),
+                    );
+                    setCurrentPage(1);
+                  }}
+                />
+                <Label
+                  className="font-normal capitalize cursor-pointer"
+                  htmlFor={`kecamatan-${groupIdx}`}
+                >
+                  {group.kecamatan} ({count})
+                </Label>
+              </Field>
+            );
+          })}
         </FieldGroup>
       </div>
     </div>

@@ -19,6 +19,7 @@ import {
   useCarousel,
 } from "src/components/ui/carousel";
 import { umkm } from "src/const/umkm";
+import { paths } from "src/routes/paths";
 
 // ------------------------------------------------------------
 
@@ -105,8 +106,8 @@ function CarouselDots() {
 
 export function LandingView() {
   return (
-    <div className="space-y-15">
-      <section className="relative py-15 md:py-20">
+    <div className="space-y-20">
+      <section className="relative pt-15 md:pt-20">
         <div className="w-full max-w-[1440px] mx-auto flex flex-col items-center justify-center px-4 md:px-6">
           <h1 className="text-3xl md:text-6xl font-medium text-center md:leading-[1.2]">
             Temukan{" "}
@@ -120,6 +121,11 @@ export function LandingView() {
             quaerat velit nemo debitis dolore officia esse suscipit omnis
             cupiditate vero perferendis?
           </p> */}
+          <Link href={paths.mainpage.umkm}>
+            <Button className="h-11 md:h-12 bg-green-500 hover:bg-green-500/90 rounded-full px-4 md:px-6 mt-8 hover:scale-105 transition-transform duration-300">
+              Cari UMKM Sekarang
+            </Button>
+          </Link>
         </div>
       </section>
       {/* <section className="relative px-4 md:px-6">
@@ -218,7 +224,6 @@ export function LandingView() {
           </h3>
           <p className="text-sm md:text-base text-center leading-relaxed mt-5">
             Daftarkan UMKM Anda sekarang dan jangkau lebih banyak pelanggan
-            melalui platform kami.
           </p>
           <Button className="h-12 px-6 mt-5 rounded-full">
             Daftar Gratis Sekarang

@@ -217,7 +217,7 @@ export function LandingView() {
         </Carousel>
       </section>
       <section className="w-full max-w-[1440px] mx-auto relative px-4 md:px-6">
-        <div className="w-full bg-linear-to-tr from-lime-500 to-green-500 flex flex-col items-center justify-center rounded-2xl p-10 md:p-15">
+        <div className="w-full bg-linear-to-tr from-lime-300 to-green-500 flex flex-col items-center justify-center rounded-2xl p-10 md:p-15">
           <h3 className="text-2xl md:text-5xl font-medium text-center md:leading-[1.2] tracking-tight">
             {/* Punya Usaha yang Ingin di Tampilkan? */}
             Anda Pemilik UMKM?

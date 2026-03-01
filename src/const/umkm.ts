@@ -32,7 +32,7 @@ export const umkm = [
     description: "Deskripsi Lapak Sayur Segar Pak Udin",
     slug: "lapak-sayur-segar-pak-udin",
     category: "makanan",
-    location: "Latakan",
+    location: "Lakatan",
     recommended: false,
   },
   {

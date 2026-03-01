@@ -123,7 +123,12 @@ export function CariUmkmView() {
   );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
+    const value = e.target.value;
+    setSearchInput(value);
+    if (value === "") {
+      setSearchQuery("");
+      setCurrentPage(1);
+    }
   };
 
   const executeSearch = () => {

@@ -13,22 +13,9 @@ import { Button } from "src/components/ui/button";
 import { Card, CardContent } from "src/components/ui/card";
 import { Checkbox } from "src/components/ui/checkbox";
 import {
-  Combobox,
-  ComboboxCollection,
-  ComboboxContent,
-  ComboboxEmpty,
-  ComboboxGroup,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxLabel,
-  ComboboxList,
-  ComboboxSeparator,
-} from "src/components/ui/combobox";
-import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -53,8 +40,10 @@ import {
 import { locations } from "src/const/lokasi";
 import { umkm } from "src/const/umkm";
 
+// ------------------------------------------------------------
+
 export function CariUmkmView() {
-  const ITEMS_PER_PAGE = 9;
+  const ITEMS_PER_PAGE = 12;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchInput, setSearchInput] = useState("");
@@ -69,8 +58,6 @@ export function CariUmkmView() {
   const sortedLocations = [...locations].sort((a, b) =>
     a.kecamatan.localeCompare(b.kecamatan),
   );
-
-  // Removed `uniqueLocations` definition because we render from `locations` imported directly
 
   const filteredUmkm = [...umkm]
     .filter((item) => {
@@ -257,11 +244,11 @@ export function CariUmkmView() {
   );
 
   return (
-    <section className="relative py-5 md:py-10">
+    <section className="relative pt-2 pb-5 md:py-10">
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-x-15">
           <div className="hidden md:block md:col-span-1">{renderFilters()}</div>
-          <div className="md:col-span-3 space-y-10">
+          <div className="md:col-span-3 space-y-7 md:space-y-10">
             <div className="flex items-center gap-2">
               <InputGroup className="h-10 md:h-11 rounded-full px-2">
                 <InputGroupInput
@@ -279,7 +266,7 @@ export function CariUmkmView() {
                 </InputGroupAddon>
               </InputGroup>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-y-7">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-y-7">
               {paginatedUmkm.map((item, index) => (
                 <Link key={index} href={`/umkm/${item.slug}`} className="group">
                   <Card className="py-0 ring-0">
@@ -292,8 +279,8 @@ export function CariUmkmView() {
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                         {item.recommended && (
-                          <div className="absolute top-3 left-0">
-                            <span className="text-xs bg-linear-to-tr from-lime-500 to-green-500 text-white p-1.5 pr-3 rounded-r-full">
+                          <div className="absolute top-1 md:top-2 left-0">
+                            <span className="text-xs bg-linear-to-tr from-lime-500 to-green-500 text-white p-1 pr-2 md:p-1.5 md:pr-3 rounded-r-full">
                               Rekomendasi
                             </span>
                           </div>
@@ -306,13 +293,13 @@ export function CariUmkmView() {
                         <div className="flex items-center gap-1">
                           <HugeiconsIcon
                             icon={Location01Icon}
-                            className="size-4 text-muted-foreground"
+                            className="size-3 md:size-4 text-muted-foreground"
                           />
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-xs md:text-sm text-muted-foreground">
                             {item.location}
                           </p>
                         </div>
-                        <p className="capitalize text-sm text-muted-foreground">
+                        <p className="text-xs md:text-sm text-muted-foreground capitalize">
                           {item.category}
                         </p>
                       </div>

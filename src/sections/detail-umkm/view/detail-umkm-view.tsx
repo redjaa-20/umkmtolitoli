@@ -2,6 +2,7 @@
 
 import {
   ArrowRight02Icon,
+  CheckmarkBadge02Icon,
   Location01Icon,
   Megaphone01Icon,
   Navigation02Icon,
@@ -102,7 +103,7 @@ export function DetailUmkmView({ params }: DetailUmkmViewProps) {
             className="object-cover"
           />
         </div>
-        <div className="w-full max-w-5xl mx-auto px-4 md:px-6">
+        <div className="w-full max-w-5xl mx-auto px-4 md:px-6 pb-15 md:pb-0">
           <div className="grid grid-cols-1 md:grid-cols-3">
             <div className="md:col-span-2 md:mr-10">
               <div className="space-y-6">
@@ -113,15 +114,36 @@ export function DetailUmkmView({ params }: DetailUmkmViewProps) {
                   {/* <span className="inline-block px-3 py-1 bg-green-100 text-green-700 text-xs md:text-sm font-medium rounded-full capitalize mb-3">
                     {umkmData.category}
                   </span> */}
-                  <div className="flex items-center gap-2 text-muted-foreground mt-3 md:mt-4">
-                    <HugeiconsIcon
-                      icon={Location01Icon}
-                      className="size-4 md:size-5"
-                    />
-                    <p className="text-sm md:text-base font-medium text-muted-foreground capitalize">
-                      {params.desa.replace(/-/g, " ")},{" "}
-                      {params.kecamatan.replace(/-/g, " ")}
-                    </p>
+                  <div className="flex flex-wrap items-center gap-3 text-muted-foreground mt-3 md:mt-4">
+                    {umkmData.recommended && (
+                      <>
+                        <span className="inline-flex items-center gap-1 pl-2 pr-3 py-1 bg-linear-to-tr from-lime-400 to-green-500 text-white text-xs md:text-sm font-medium rounded-full capitalize">
+                          <HugeiconsIcon
+                            icon={CheckmarkBadge02Icon}
+                            className="size-3.5 md:size-4"
+                            strokeWidth={2}
+                          />
+                          Rekomendasi
+                        </span>
+                        <span>&bull;</span>
+                      </>
+                    )}
+                    <div className="flex items-center gap-1">
+                      <HugeiconsIcon
+                        icon={Location01Icon}
+                        className="size-3.5 md:size-4"
+                      />
+                      <p className="text-sm md:text-base font-medium capitalize">
+                        {params.desa.replace(/-/g, " ")},{" "}
+                        {params.kecamatan.replace(/-/g, " ")}
+                      </p>
+                    </div>
+                    <span>&bull;</span>
+                    <div>
+                      <p className="text-sm md:text-base font-medium capitalize">
+                        {umkmData.category}
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <Separator className="bg-transparent border-b border-dashed" />

@@ -1,7 +1,20 @@
-import { Separator } from "../ui/separator";
+"use client";
+
+import { Separator } from "src/components/ui/separator";
 import { navMenu } from "./menu";
+import { usePathname } from "next/navigation";
+
+// ------------------------------------------------------------
 
 export function MainFooter() {
+  const pathname = usePathname();
+
+  const segments = pathname.split("/").filter(Boolean);
+  const isUMKMDetail = segments.length === 5 && segments[0] === "umkm";
+  const isCariUMKM = pathname === "/cari-umkm";
+
+  if (isUMKMDetail || isCariUMKM) return null;
+
   return (
     <footer className="w-full max-w-[1440px] mx-auto p-4 md:p-6">
       <div className="flex flex-col bg-primary text-primary-foreground p-6 md:px-15 md:py-13 rounded-xl">

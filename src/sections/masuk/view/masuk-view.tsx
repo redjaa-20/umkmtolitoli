@@ -165,7 +165,7 @@ export function MasukView() {
       </div>
       <div className="py-4 text-center">
         <span className="text-sm text-muted-foreground">
-          © {new Date().getFullYear()} UMKM Tolitoli. All rights reserved.
+          © 2026 UMKM Tolitoli. All rights reserved.
         </span>
       </div>
     </section>

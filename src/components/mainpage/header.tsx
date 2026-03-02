@@ -59,15 +59,17 @@ export function MainHeader() {
           </nav>
         </div>
         <div className="flex items-center gap-6">
-          <Link href={paths.auth.login} className="text-sm">
+          <Link href={paths.auth.login} className="hidden md:block text-sm">
             Masuk
           </Link>
-          <Button
-            variant="secondary"
-            className="hidden md:block h-10 bg-green-500 hover:bg-green-500/90 text-white px-4 md:px-6"
-          >
-            Daftar
-          </Button>
+          <Link href={paths.auth.register}>
+            <Button
+              variant="secondary"
+              className="h-10 bg-green-500 hover:bg-green-500/90 text-white px-4 md:px-6"
+            >
+              Daftar
+            </Button>
+          </Link>
           {/* <Button
             size="lg"
             className="bg-indigo-500 hover:bg-indigo-500/90 px-4"

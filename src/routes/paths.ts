@@ -2,17 +2,17 @@
 
 export const paths = {
   auth: {
-    login: `/login`,
-    register: `/register`,
+    login: `/masuk`,
+    register: `/daftar`,
   },
   mainpage: {
     root: "/",
     umkm: "/cari-umkm",
   },
-  app: {
-    home: "/home",
-    pages: "/pages",
-    edit: (id: string) => `/edit/${id}`,
-    bookings: "/bookings",
+  dashboard: {
+    home: "/dashboard",
+    pages: "/dashboard/pages",
+    edit: (id: string) => `/dashboard/edit/${id}`,
+    bookings: "/dashboard/bookings",
   },
 };

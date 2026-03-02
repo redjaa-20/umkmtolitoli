@@ -7,6 +7,7 @@ import { cn } from "src/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Menu01Icon } from "@hugeicons/core-free-icons";
 import { navMenu } from "./menu";
+import Link from "next/link";
 
 // ------------------------------------------------------------
 
@@ -58,12 +59,12 @@ export function MainHeader() {
           </nav>
         </div>
         <div className="flex items-center gap-6">
-          <a href="#" className="hidden md:block text-sm">
+          <Link href={paths.auth.login} className="text-sm">
             Masuk
-          </a>
+          </Link>
           <Button
             variant="secondary"
-            className="h-10 bg-green-500 hover:bg-green-500/90 text-white px-4 md:px-6"
+            className="hidden md:block h-10 bg-green-500 hover:bg-green-500/90 text-white px-4 md:px-6"
           >
             Daftar
           </Button>

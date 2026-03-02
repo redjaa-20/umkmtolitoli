@@ -161,8 +161,9 @@ export function DetailUmkmView({ params }: DetailUmkmViewProps) {
               </div>
             </div>
             <div className="hidden md:block">
-              <Card className="w-full sticky top-10 ring-0 shadow-[0_2px_40px_#0000000a,0_16px_40px_#0000000f] py-5">
-                <CardContent className="px-5">
+              {/* <Card className="w-full sticky top-10 ring-0 shadow-[0_2px_40px_#0000000a,0_16px_40px_#0000000f] py-5"> */}
+              <Card className="w-full sticky top-10">
+                <CardContent>
                   <div className="flex flex-col gap-2 w-full">
                     <Link href="#" className="w-full">
                       <Button className="h-11 w-full bg-green-500 hover:bg-green-500/90 rounded-full">
@@ -174,10 +175,7 @@ export function DetailUmkmView({ params }: DetailUmkmViewProps) {
                       </Button>
                     </Link>
                     <Link href="#" className="w-full">
-                      <Button
-                        variant="outline"
-                        className="h-11 w-full rounded-full"
-                      >
+                      <Button className="h-11 w-full rounded-full">
                         <HugeiconsIcon
                           icon={Location01Icon}
                           className="size-5 mr-2"

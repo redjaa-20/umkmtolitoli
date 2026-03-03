@@ -13,8 +13,6 @@ export const paths = {
   },
   dashboard: {
     root: "/dashboard",
-    pages: "/dashboard/pages",
-    edit: (id: string) => `/dashboard/edit/${id}`,
-    bookings: "/dashboard/bookings",
+    business: "/dashboard/usaha",
   },
 };

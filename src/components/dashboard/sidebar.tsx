@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Card, CardContent } from "../ui/card";
 import { paths } from "src/routes/paths";
 import { Button } from "../ui/button";
@@ -12,39 +15,55 @@ import {
 
 // ------------------------------------------------------------
 
+const NAV_ITEMS = [
+  {
+    title: "Dashboard",
+    path: paths.dashboard.root,
+    icon: Home04Icon,
+  },
+  {
+    title: "Usaha",
+    path: paths.dashboard.business,
+    icon: BriefcaseDollarIcon,
+  },
+];
+
 export function DashboardSidebar() {
+  const pathname = usePathname();
+
   return (
-    <aside className="hidden md:block w-75 shrink-0 sticky top-[100px] h-[calc(100dvh-120px)]">
-      <Card className="h-full flex flex-col">
-        <CardContent className="flex-1 overflow-y-auto">
-          <div className="flex flex-col">
-            <div className="flex flex-col gap-1">
-              <Link href={paths.dashboard.root}>
-                <Button className="w-full h-11 bg-green-500 justify-start gap-2">
-                  <HugeiconsIcon
-                    icon={Home04Icon}
-                    className="size-4.5"
-                    strokeWidth={2}
-                  />
-                  Dashboard
-                </Button>
-              </Link>
-              <Link href="#">
+    <aside className="hidden md:block w-70 shrink-0 sticky top-[100px] h-[calc(100dvh-120px)]">
+      <div className="flex flex-col">
+        <div className="flex flex-col gap-1">
+          {NAV_ITEMS.map((item) => {
+            const isActive =
+              item.path === paths.dashboard.root
+                ? pathname === item.path
+                : pathname === item.path ||
+                  pathname.startsWith(`${item.path}/`);
+
+            return (
+              <Link key={item.title} href={item.path}>
                 <Button
-                  variant="ghost"
-                  className="w-full h-11 justify-start gap-2"
+                  variant={isActive ? "default" : "ghost"}
+                  className={`w-full h-11 justify-start gap-2 ${
+                    isActive
+                      ? "bg-green-500 hover:bg-green-500/90 text-white"
+                      : ""
+                  }`}
                 >
                   <HugeiconsIcon
-                    icon={BriefcaseDollarIcon}
+                    icon={item.icon}
                     className="size-4.5"
+                    strokeWidth={isActive ? 2 : 1.5}
                   />
-                  Usaha
+                  {item.title}
                 </Button>
               </Link>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+            );
+          })}
+        </div>
+      </div>
     </aside>
   );
 }

@@ -47,9 +47,11 @@ export function MainHeader() {
           <Button size="icon" variant="ghost" className="md:hidden mr-1.5">
             <HugeiconsIcon icon={Menu01Icon} className="size-6.5" />
           </Button>
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-semibold">UMKM Tolitoli</span>
-          </div>
+          <Link href={paths.mainpage.root}>
+            <div className="flex items-center gap-2">
+              <span className="text-xl font-semibold">UMKM Tolitoli</span>
+            </div>
+          </Link>
           <nav className="hidden md:flex items-center gap-8 ml-10">
             {navMenu.map((nav, index) => (
               <a key={index} href={nav.href} className="text-sm">

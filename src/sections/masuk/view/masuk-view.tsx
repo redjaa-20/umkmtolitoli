@@ -10,6 +10,7 @@ import { Form } from "src/components/form";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ViewIcon, ViewOffIcon } from "@hugeicons/core-free-icons";
 import { Spinner } from "src/components/ui/spinner";
+import { paths } from "src/routes/paths";
 
 // ------------------------------------------------------------
 
@@ -87,10 +88,21 @@ export function MasukView() {
 
   return (
     <section className="h-full flex flex-col">
-      <div className="h-20 flex items-center px-5">
-        <div className="flex items-center gap-2">
-          <span className="text-lg font-semibold">UMKM Tolitoli</span>
-        </div>
+      <div className="h-20 flex items-center justify-between px-5">
+        <Link href={paths.mainpage.root}>
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-semibold">UMKM Tolitoli</span>
+          </div>
+        </Link>
+        <span className="text-sm">
+          Belum punya akun?{" "}
+          <Link
+            href={paths.auth.register}
+            className="font-medium text-green-500"
+          >
+            Daftar
+          </Link>
+        </span>
       </div>
       <div className="flex-1 flex items-center justify-center px-5 md:px-15">
         <div className="w-full space-y-5">
@@ -110,7 +122,7 @@ export function MasukView() {
                 <div className="flex items-center justify-between w-full">
                   <span className="text-sm font-semibold">Kata Sandi</span>
                   <Link
-                    href="#"
+                    href={paths.auth.forgotPassword}
                     className="font-normal text-sm text-muted-foreground"
                   >
                     Lupa Kata Sandi?

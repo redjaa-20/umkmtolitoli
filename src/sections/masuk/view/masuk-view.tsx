@@ -11,6 +11,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { ViewIcon, ViewOffIcon } from "@hugeicons/core-free-icons";
 import { Spinner } from "src/components/ui/spinner";
 import { paths } from "src/routes/paths";
+import { useRouter } from "next/navigation";
 
 // ------------------------------------------------------------
 
@@ -55,6 +56,7 @@ const GoogleIcon = () => (
 // ------------------------------------------------------------
 
 export function MasukView() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
   const defaultValues = {
@@ -80,6 +82,7 @@ export function MasukView() {
       // showToast("Berhasil masuk", "success");
       // router.push(paths.dashboard.root);
       alert(JSON.stringify(data, null, 2));
+      router.push(paths.dashboard.root);
     } catch (err) {
       console.error(err);
       // showToast("Gagal mengirim kode. Silakan coba lagi.", "error");

@@ -5,15 +5,26 @@ import { paths } from "src/routes/paths";
 import { Button } from "src/components/ui/button";
 import { cn } from "src/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Menu01Icon } from "@hugeicons/core-free-icons";
+import { Menu01Icon, Notification01Icon } from "@hugeicons/core-free-icons";
 import { navMenu } from "./menu";
 import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 // ------------------------------------------------------------
 
 export function MainHeader() {
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
+  const loginState = true;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,17 +72,65 @@ export function MainHeader() {
           </nav>
         </div>
         <div className="flex items-center gap-6">
-          <Link href={paths.auth.login} className="hidden md:block text-sm">
-            Masuk
-          </Link>
-          <Link href={paths.auth.register}>
-            <Button
-              variant="secondary"
-              className="h-10 bg-green-500 hover:bg-green-500/90 text-white px-4 md:px-6"
-            >
-              Daftar
-            </Button>
-          </Link>
+          {loginState !== true ? (
+            <>
+              <Link href={paths.auth.login} className="hidden md:block text-sm">
+                Masuk
+              </Link>
+              <Link href={paths.auth.register}>
+                <Button
+                  variant="secondary"
+                  className="h-10 bg-green-500 hover:bg-green-500/90 text-white px-4 md:px-6"
+                >
+                  Daftar
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <div className="flex items-center gap-2 md:gap-3">
+              <Button
+                size="icon"
+                variant="ghost"
+                className="md:size-10 rounded-full"
+              >
+                <HugeiconsIcon
+                  icon={Notification01Icon}
+                  className="size-4.5 md:size-5"
+                />
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  render={
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-full"
+                    >
+                      <Avatar className="md:size-9">
+                        <AvatarImage
+                          src="https://github.com/shadcn.png"
+                          alt="shadcn"
+                        />
+                        <AvatarFallback>LR</AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  }
+                ></DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuGroup>
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem>Billing</DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                  </DropdownMenuGroup>
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem>Team</DropdownMenuItem>
+                    <DropdownMenuItem>Subscription</DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          )}
           {/* <Button
             size="lg"
             className="bg-indigo-500 hover:bg-indigo-500/90 px-4"

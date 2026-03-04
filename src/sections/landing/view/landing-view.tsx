@@ -225,9 +225,11 @@ export function LandingView() {
           <p className="text-sm md:text-base text-center leading-relaxed mt-5">
             Daftarkan UMKM Anda sekarang dan jangkau lebih banyak pelanggan
           </p>
-          <Button className="h-12 px-6 mt-5 rounded-full">
-            Daftar Gratis Sekarang
-          </Button>
+          <Link href={paths.auth.register}>
+            <Button className="h-12 px-6 mt-5 rounded-full">
+              Daftar Gratis Sekarang
+            </Button>
+          </Link>
         </div>
       </section>
     </div>

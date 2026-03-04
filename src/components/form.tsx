@@ -26,11 +26,21 @@ import { cn } from "src/lib/utils";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "src/components/ui/select";
 import { Textarea } from "src/components/ui/textarea";
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "src/components/ui/combobox";
 
 type FormProps = {
   methods: any;
@@ -274,11 +284,17 @@ type SelectOption = {
   disabled?: boolean;
 };
 
+export type SelectGroupOption = {
+  group: string;
+  items: SelectOption[];
+};
+
 type FormSelectProps<TFieldValues extends FieldValues = FieldValues> = {
   name: FieldPath<TFieldValues>;
   label?: string;
   placeholder?: string;
-  options: SelectOption[];
+  options?: SelectOption[];
+  items: (SelectOption | SelectGroupOption)[];
   description?: string;
   disabled?: boolean;
   className?: string;
@@ -289,6 +305,7 @@ Form.Select = function FormSelect<TFieldValues extends FieldValues>({
   name,
   label,
   placeholder,
+  items,
   options,
   description,
   disabled,
@@ -308,9 +325,8 @@ Form.Select = function FormSelect<TFieldValues extends FieldValues>({
               <FieldLabel className="font-semibold">{label}</FieldLabel>
             )}
             <Select
-              onValueChange={field.onChange}
-              defaultValue={field.value}
               value={field.value}
+              onValueChange={field.onChange}
               disabled={disabled}
             >
               <SelectTrigger
@@ -324,18 +340,119 @@ Form.Select = function FormSelect<TFieldValues extends FieldValues>({
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>
-                {options.map((option) => (
-                  <SelectItem
-                    key={option.value}
-                    value={option.value}
-                    disabled={option.disabled}
-                    className="cursor-pointer"
-                  >
-                    {option.label}
-                  </SelectItem>
-                ))}
+                {items.map((option, index) => {
+                  if ("group" in option) {
+                    return (
+                      <SelectGroup key={index}>
+                        <SelectLabel>{option.group}</SelectLabel>
+                        {option.items.map((item) => (
+                          <SelectItem
+                            key={item.value}
+                            value={item.value}
+                            disabled={item.disabled}
+                            className="cursor-pointer"
+                          >
+                            {item.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    );
+                  }
+                  return (
+                    <SelectItem
+                      key={option.value}
+                      value={option.value}
+                      disabled={option.disabled}
+                      className="cursor-pointer"
+                    >
+                      {option.label}
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
+            {description && (
+              <p className="text-xs text-muted-foreground">{description}</p>
+            )}
+            {fieldState.invalid && (
+              <FieldError errors={[fieldState.error!]} className="text-xs" />
+            )}
+          </Field>
+        )}
+      />
+    </FieldGroup>
+  );
+};
+
+/* -------------------------------------------------------------------------- */
+/*                                COMBOBOX                                    */
+/* -------------------------------------------------------------------------- */
+type FormComboboxProps<TFieldValues extends FieldValues = FieldValues> = {
+  name: FieldPath<TFieldValues>;
+  label?: React.ReactNode;
+  placeholder?: string;
+  options: SelectOption[];
+  description?: string;
+  disabled?: boolean;
+  className?: string;
+  emptyMessage?: string;
+};
+
+Form.Combobox = function FormCombobox<TFieldValues extends FieldValues>({
+  name,
+  label,
+  placeholder,
+  options,
+  description,
+  disabled,
+  className,
+  emptyMessage = "No results found.",
+}: FormComboboxProps<TFieldValues>) {
+  const methods = useFormMethods();
+
+  return (
+    <FieldGroup className={className}>
+      <Controller
+        control={methods.control}
+        name={name}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            {label &&
+              (typeof label === "string" ? (
+                <FieldLabel className="font-semibold">{label}</FieldLabel>
+              ) : (
+                label
+              ))}
+            <Combobox
+              value={field.value ?? null}
+              onValueChange={(val) => field.onChange(val)}
+              disabled={disabled}
+            >
+              <ComboboxInput
+                placeholder={placeholder}
+                aria-invalid={fieldState.invalid}
+                className={cn(
+                  "w-full h-11",
+                  fieldState.invalid && "border-red-500 focus:ring-red-500",
+                )}
+                onBlur={field.onBlur}
+              />
+              <ComboboxContent>
+                <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
+                <ComboboxList>
+                  {options.map((option) => (
+                    <ComboboxItem
+                      key={option.value}
+                      value={option.value}
+                      disabled={option.disabled}
+                    >
+                      {option.label}
+                    </ComboboxItem>
+                  ))}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
+
             {description && (
               <p className="text-xs text-muted-foreground">{description}</p>
             )}

@@ -23,7 +23,7 @@ const NAV_ITEMS = [
   },
   {
     title: "Usaha",
-    path: paths.dashboard.business,
+    path: paths.dashboard.business.root,
     icon: BriefcaseDollarIcon,
   },
 ];
@@ -32,7 +32,7 @@ export function DashboardSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden md:block w-70 shrink-0 sticky top-[100px] h-[calc(100dvh-120px)]">
+    <aside className="hidden md:block w-70 shrink-0 sticky top-16 h-[calc(100dvh-120px)]">
       <div className="flex flex-col">
         <div className="flex flex-col gap-1">
           {NAV_ITEMS.map((item) => {

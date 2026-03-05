@@ -337,7 +337,23 @@ Form.Select = function FormSelect<TFieldValues extends FieldValues>({
                 )}
                 aria-invalid={fieldState.invalid}
               >
-                <SelectValue placeholder={placeholder} />
+                <SelectValue placeholder={placeholder}>
+                  {(() => {
+                    if (!field.value) return null;
+                    // Find the label matching the selected value
+                    for (const option of items) {
+                      if ("group" in option) {
+                        const found = option.items.find(
+                          (item) => item.value === field.value,
+                        );
+                        if (found) return found.label;
+                      } else {
+                        if (option.value === field.value) return option.label;
+                      }
+                    }
+                    return field.value; // Fallback
+                  })()}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {items.map((option, index) => {

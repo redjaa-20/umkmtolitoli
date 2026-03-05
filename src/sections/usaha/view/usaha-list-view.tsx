@@ -1,76 +1,69 @@
-import {
-  Add01Icon,
-  Location01Icon,
-  Search01Icon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "src/components/ui/button";
-import { Card, CardContent } from "src/components/ui/card";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "src/components/ui/input-group";
-import { umkm } from "src/const/umkm";
-import { paths } from "src/routes/paths";
+import { createClient } from "src/lib/supabase/server";
+import { UsahaCard } from "../usaha-card";
+import { UsahaListToolbar } from "../usaha-list-toolbar";
 
-export function UsahaListView() {
+// ------------------------------------------------------------
+
+/** Supabase can return a joined relation as an object or array depending on key type. */
+function getKategoriName(
+  kategori?: { name: string } | { name: string }[] | null,
+): string | null {
+  if (!kategori) return null;
+  if (Array.isArray(kategori)) return kategori[0]?.name ?? null;
+  return kategori.name;
+}
+
+// ------------------------------------------------------------
+
+export async function UsahaListView() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  let umkm: {
+    id: string;
+    name: string;
+    image_url?: string | null;
+    kategori?: { name: string } | { name: string }[] | null;
+  }[] = [];
+
+  if (user) {
+    const { data } = await supabase
+      .from("usaha")
+      .select(
+        `
+        id,
+        name,
+        image_url,
+        kategori:kategori_id (name)
+      `,
+      )
+      .eq("owner_id", user.id)
+      .order("created_at", { ascending: false });
+
+    if (data) umkm = data as any;
+  }
+
   return (
     <section className="flex flex-col gap-y-5">
       <h1 className="text-xl font-semibold">List Usaha Anda</h1>
-      <div className="flex flex-col md:flex-row md:items-center gap-3">
-        <InputGroup className="flex-1 h-10 md:h-11 px-2">
-          <InputGroupInput
-            placeholder="Cari UMKM..."
-            className="placeholder:text-sm"
-          />
-          <InputGroupAddon>
-            <HugeiconsIcon icon={Search01Icon} />
-          </InputGroupAddon>
-        </InputGroup>
-        <Link href={paths.dashboard.business.create}>
-          <Button className="h-10 md:h-11 bg-green-500 hover:bg-green-500/90 px-4">
-            <HugeiconsIcon
-              icon={Add01Icon}
-              className="size-4.5"
-              strokeWidth={2}
-            />
-            Tambah Baru
-          </Button>
-        </Link>
-      </div>
+      <UsahaListToolbar />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {umkm.map((item, index) => (
-          <Card key={index} className="py-2">
-            <CardContent className="flex flex-col gap-3 px-2">
-              <div className="w-full aspect-14/9 relative overflow-hidden rounded-lg">
-                <Image
-                  src={item.image}
-                  alt="{item.name}"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="px-1 space-y-1">
-                <h3 className="font-medium line-clamp-1">{item.name}</h3>
-                {/* <div className="flex items-center gap-1">
-                  <HugeiconsIcon
-                    icon={Location01Icon}
-                    className="size-3 md:size-4 text-muted-foreground"
-                  />
-                  <p className="text-xs md:text-sm text-muted-foreground">
-                    {item.location}
-                  </p>
-                </div> */}
-                <p className="text-xs md:text-sm text-muted-foreground capitalize">
-                  {item.category}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+        {umkm.map((item) => (
+          <UsahaCard
+            key={item.id}
+            name={item.name}
+            imageUrl={item.image_url}
+            kategoriName={getKategoriName(item.kategori)}
+          />
         ))}
+        {umkm.length === 0 && (
+          <div className="col-span-full py-10 flex text-center flex-col items-center justify-center text-muted-foreground bg-muted/30 rounded-lg border border-dashed">
+            <p className="text-sm">Anda belum mendaftarkan usaha apa pun.</p>
+          </div>
+        )}
       </div>
     </section>
   );

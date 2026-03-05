@@ -1,5 +1,6 @@
 import { DashboardSidebar } from "src/components/dashboard";
 import { MainHeader } from "src/components/mainpage";
+import { Toaster } from "src/components/ui/sonner";
 
 // ------------------------------------------------------------
 
@@ -21,6 +22,7 @@ export default function DashboardLayout({
             </div>
           </div>
         </main>
+        <Toaster />
       </div>
     </div>
   );
